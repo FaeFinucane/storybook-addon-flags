@@ -1,4 +1,4 @@
-import React, { memo, useCallback, useEffect } from "react";
+import React, { memo, useCallback, useEffect, useState } from "react";
 import { useGlobals, useStorybookApi } from "@storybook/manager-api";
 import { Icons, IconButton } from "@storybook/components";
 import { ADDON_ID, PARAM_KEY, TOOL_ID } from "./constants";
@@ -6,33 +6,29 @@ import { ADDON_ID, PARAM_KEY, TOOL_ID } from "./constants";
 export const Tool = memo(function MyAddonSelector() {
   const [globals, updateGlobals] = useGlobals();
   const api = useStorybookApi();
-
-  const isActive = [true, "true"].includes(globals[PARAM_KEY]);
-
-  const toggleMyTool = useCallback(() => {
-    updateGlobals({
-      [PARAM_KEY]: !isActive,
-    });
-  }, [isActive]);
+  
+  const [isOpen, setOpen] = useState(false);
 
   useEffect(() => {
     api.setAddonShortcut(ADDON_ID, {
-      label: "Toggle Measure [O]",
-      defaultShortcut: ["O"],
+      label: "Toggle Flags [F]",
+      defaultShortcut: ["F"],
       actionName: "outline",
       showInMenu: false,
-      action: toggleMyTool,
+      action: () => setOpen((isOpen) => !isOpen),
     });
-  }, [toggleMyTool, api]);
+  }, [setOpen, api]);
 
   return (
-    <IconButton
-      key={TOOL_ID}
-      active={isActive}
-      title="Enable my addon"
-      onClick={toggleMyTool}
-    >
-      <Icons icon="lightning" />
-    </IconButton>
+    <div>
+      <IconButton
+        key={TOOL_ID}
+        active={isOpen}
+        title="Feature Flags"
+        onClick={() => setOpen(!isOpen)}
+      >
+        <Icons icon="lightning" />
+      </IconButton>
+    </div>
   );
 });
