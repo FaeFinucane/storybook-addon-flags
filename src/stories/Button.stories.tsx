@@ -1,5 +1,6 @@
 import React from "react";
 import type { Meta, StoryObj } from "@storybook/react";
+import { withFlags } from "../index";
 import { Button } from "./Button";
 import FlagsProvider from "./FlagsProvider";
 
@@ -25,16 +26,12 @@ const meta: Meta<typeof Button> = {
     },
   },
   decorators: [
-    (Story, context) => {
-      // Get the active feature flags from storybook's globals
-      const featureFlags = context.globals.featureFlags;
-      featureFlags.ButtonStyle;
-      return (
-        <FlagsProvider flags={featureFlags}>
-          <Story />
-        </FlagsProvider>
-      );
-    },
+    // Get the current feature flags using the decorator
+    withFlags((Story, flags) => (
+      <FlagsProvider flags={flags}>
+        <Story />
+      </FlagsProvider>
+    )),
   ],
 };
 
