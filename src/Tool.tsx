@@ -15,11 +15,7 @@ import {
 import { LightningIcon, CheckIcon, ChevronRightIcon } from "@storybook/icons";
 import { PARAM_KEY, TOOL_ID } from "./constants";
 import { styled } from "@storybook/theming";
-
-type BoolFlag = { type: "boolean"; defaultValue?: boolean };
-type EnumFlag = { type: "enum"; options: string[]; defaultValue?: string };
-type Flag = BoolFlag | EnumFlag;
-type FlagsParameter = Record<string, Flag>;
+import type { BoolFlag, EnumFlag, FlagsParameter } from "./preview";
 
 export const Tool = memo(function FlagSelector() {
   const flagOptions = useParameter<FlagsParameter>(PARAM_KEY, {});
