@@ -1,9 +1,5 @@
 import React, { memo, useCallback, useState } from "react";
-import {
-  useGlobals,
-  useParameter,
-  useStorybookApi,
-} from "@storybook/manager-api";
+import { useGlobals, useParameter } from "@storybook/manager-api";
 import {
   IconButton,
   ListItem,
@@ -11,18 +7,34 @@ import {
   TooltipLinkList,
 } from "@storybook/components";
 import { LightningIcon, CheckIcon, ChevronRightIcon } from "@storybook/icons";
-import { PARAM_KEY, TOOL_ID } from "./constants";
+import {
+  FLAG_DEFAULTS_PARAM_KEY,
+  FLAG_TYPES_PARAM_KEY,
+  FLAG_VALUES_GLOBAL_KEY,
+  TOOL_ID,
+} from "./constants";
 import { styled } from "@storybook/theming";
-import type { BoolFlag, EnumFlag, FlagsParameter } from "./types";
+import {
+  FeatureFlags,
+  type BoolFlagDefinition,
+  type EnumFlagDefinition,
+  type FlagTypesParameter,
+} from "./types";
 
 export const Tool = memo(function FlagSelector() {
-  const flagOptions = useParameter<FlagsParameter>(PARAM_KEY, {});
+  const definitions = useParameter<FlagTypesParameter>(
+    FLAG_TYPES_PARAM_KEY,
+    {},
+  );
+  const defaults = useParameter<Partial<FeatureFlags>>(
+    FLAG_DEFAULTS_PARAM_KEY,
+    {},
+  );
 
-  const [{ [PARAM_KEY]: flagValues }, updateGlobals] = useGlobals();
-  const api = useStorybookApi();
-
+  const [{ [FLAG_VALUES_GLOBAL_KEY]: overrides }, updateGlobals] = useGlobals();
   const [isOpen, setOpen] = useState(false);
 
+  // const api = useStorybookApi();
   // useEffect(() => {
   //   api.setAddonShortcut(ADDON_ID, {
   //     label: "Toggle Flags [F]",
@@ -34,30 +46,54 @@ export const Tool = memo(function FlagSelector() {
   // }, [setOpen, api]);
 
   const list = useCallback(
-    ({ onHide }: { onHide(): void }) => (
-      <List>
-        {Object.entries(flagOptions).map(([name, flag]) => {
-          const FlagListItem =
-            flag.type === "boolean" ? BoolFlagListItem : EnumFlagListItem;
-          return (
-            <FlagListItem
-              key={name}
-              name={name}
-              // @ts-ignore
-              flag={flag}
-              value={flagValues?.[name]}
-              onUpdate={(value) => {
-                updateGlobals({
-                  [PARAM_KEY]: { ...flagValues, [name]: value },
-                });
-                onHide();
-              }}
-            />
-          );
-        })}
-      </List>
-    ),
-    [flagOptions, flagValues, updateGlobals],
+    ({ onHide }: { onHide(): void }) => {
+      // Order the flags by whether a default is provided, then by name.
+      // This way, flags with defaults will be at the top.
+      const sorted = Object.keys(definitions).sort((a, b) => {
+        const aHasDefault = a in defaults;
+        const bHasDefault = b in defaults;
+        if (aHasDefault !== bHasDefault) {
+          return aHasDefault ? -1 : 1;
+        }
+        return a.localeCompare(b);
+      });
+
+      return (
+        <List>
+          {sorted.map((flag) => {
+            const definition = definitions[flag];
+
+            const FlagListItem =
+              definition.type === "boolean"
+                ? BoolFlagListItem
+                : EnumFlagListItem;
+
+            const originalValue = defaults?.[flag] ?? definition.initialValue;
+            const value = overrides?.[flag] ?? originalValue;
+
+            return (
+              <FlagListItem
+                key={flag}
+                name={flag}
+                // @ts-ignore
+                definition={definition}
+                value={value}
+                onUpdate={(value) => {
+                  updateGlobals({
+                    [FLAG_VALUES_GLOBAL_KEY]: {
+                      ...overrides,
+                      [flag]: value !== originalValue ? value : undefined,
+                    },
+                  });
+                  onHide();
+                }}
+              />
+            );
+          })}
+        </List>
+      );
+    },
+    [definitions, defaults, overrides, updateGlobals],
   );
 
   return (
@@ -76,14 +112,13 @@ export const Tool = memo(function FlagSelector() {
 
 type BoolFlagItemProps = {
   name: string;
-  flag: BoolFlag;
-  value?: string;
+  definition: BoolFlagDefinition;
+  value?: string | boolean;
   onUpdate: (value: string) => void;
 };
 const BoolFlagListItem = memo(
-  ({ name, flag, value, onUpdate }: BoolFlagItemProps) => {
-    const actualValue =
-      value !== undefined ? value === "true" : flag.defaultValue;
+  ({ name, value, onUpdate }: BoolFlagItemProps) => {
+    const actualValue = value === "true" || value === true;
     return (
       <ListItem
         id={name}
@@ -100,13 +135,12 @@ const BoolFlagListItem = memo(
 
 type EnumFlagItemProps = {
   name: string;
-  flag: EnumFlag;
+  definition: EnumFlagDefinition;
   value?: string;
   onUpdate: (value: string) => void;
 };
 const EnumFlagListItem = memo(
-  ({ name, flag, value, onUpdate }: EnumFlagItemProps) => {
-    const actualValue = value ?? flag.defaultValue;
+  ({ name, definition: flag, value, onUpdate }: EnumFlagItemProps) => {
     return (
       <WithTooltipPure
         placement="right-start"
@@ -119,7 +153,7 @@ const EnumFlagListItem = memo(
                 onHideNested();
                 onUpdate(option);
               },
-              right: actualValue === option ? <CheckIcon fill="black" /> : null,
+              right: value === option ? <CheckIcon fill="black" /> : null,
             }))}
           />
         )}
@@ -132,7 +166,7 @@ const EnumFlagListItem = memo(
           title={name}
           right={
             <>
-              <ValueLabel>{actualValue}</ValueLabel>
+              <ValueLabel>{value}</ValueLabel>
               <ChevronRightIcon fill="black" />
             </>
           }

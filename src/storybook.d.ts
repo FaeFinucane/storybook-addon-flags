@@ -1,12 +1,17 @@
-import type { PARAM_KEY } from "./constants";
-import type { FlagsParameter, FlagsGlobal, FeatureFlags } from "./types";
+import type {
+  FLAG_DEFAULTS_PARAM_KEY,
+  FLAG_TYPES_PARAM_KEY,
+  FLAG_VALUES_GLOBAL_KEY,
+} from "./constants";
+import type { FlagTypesParameter, FlagsGlobal, FeatureFlags } from "./types";
 
 declare module "@storybook/types" {
   interface Parameters {
-    [PARAM_KEY]?: FlagsParameter;
+    [FLAG_TYPES_PARAM_KEY]?: FlagTypesParameter;
+    [FLAG_DEFAULTS_PARAM_KEY]?: Partial<FeatureFlags>;
   }
 
   interface Globals {
-    [PARAM_KEY]: FeatureFlags;
+    [FLAG_VALUES_GLOBAL_KEY]: Partial<FeatureFlags>;
   }
 }

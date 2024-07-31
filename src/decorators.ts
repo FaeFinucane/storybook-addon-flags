@@ -5,7 +5,12 @@ import type {
   Renderer,
   StoryContext,
 } from "@storybook/types";
-import type { FeatureFlags, FlagsParameter } from "./types";
+import type { FeatureFlags, FlagTypesParameter } from "./types";
+import {
+  FLAG_DEFAULTS_PARAM_KEY,
+  FLAG_TYPES_PARAM_KEY,
+  FLAG_VALUES_GLOBAL_KEY,
+} from "./constants";
 
 type FlagsDecoratorFunction<
   TRenderer extends Renderer = Renderer,
@@ -17,23 +22,15 @@ type FlagsDecoratorFunction<
 ) => TRenderer["storyResult"];
 
 export function getFlagValues(context: StoryContext): FeatureFlags {
-  const flagOptions = context.parameters.featureFlags;
-  const featureFlags = context.globals.featureFlags;
+  const definitions = context.parameters[FLAG_TYPES_PARAM_KEY];
+  const defaults = context.parameters[FLAG_DEFAULTS_PARAM_KEY];
+  const overrides = context.globals[FLAG_VALUES_GLOBAL_KEY];
 
   return Object.fromEntries(
-    Object.entries(flagOptions).map(([key, flag]) => [
-      key,
-      featureFlags[key] ?? flag.defaultValue,
+    Object.keys(definitions).map((flag) => [
+      flag,
+      overrides?.[flag] ?? defaults?.[flag] ?? definitions[flag].initialValue,
     ]),
-  );
-}
-
-export function selectFlags<Flags extends Record<string, any> = FlagsParameter>(
-  allFlags: Flags,
-  selectedFlags: (keyof Flags)[],
-) {
-  return Object.fromEntries(
-    Object.entries(allFlags).filter(([key]) => selectedFlags.includes(key)),
   );
 }
 

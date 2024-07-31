@@ -18,11 +18,9 @@ const meta: Meta<typeof Button> = {
   tags: ["autodocs"],
   parameters: {
     // Specify the feature flags this component responds to
-    featureFlags: {
-      ButtonStyle: {
-        type: "enum",
-        options: ["primary", "secondary"],
-      },
+    flagTypes: {
+      AnIrrelevantFlag: { type: "boolean" },
+      ButtonStyle: { type: "enum", options: ["primary", "secondary"] },
     },
   },
   decorators: [
@@ -41,5 +39,16 @@ type Story = StoryObj<typeof Button>;
 export const Default: Story = {
   args: {
     label: "Primary",
+  },
+};
+
+export const Secondary: Story = {
+  args: {
+    label: "Secondary",
+  },
+  parameters: {
+    flags: {
+      ButtonStyle: "secondary",
+    },
   },
 };
