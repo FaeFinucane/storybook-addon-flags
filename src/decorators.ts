@@ -5,7 +5,7 @@ import type {
   Renderer,
   StoryContext,
 } from "@storybook/types";
-import type { FeatureFlags } from "./types";
+import type { FeatureFlags, FlagsParameter } from "./types";
 
 type FlagsDecoratorFunction<
   TRenderer extends Renderer = Renderer,
@@ -16,7 +16,7 @@ type FlagsDecoratorFunction<
   c: StoryContext<TRenderer, TArgs>,
 ) => TRenderer["storyResult"];
 
-export function getFlags(context: StoryContext): FeatureFlags {
+export function getFlagValues(context: StoryContext): FeatureFlags {
   const flagOptions = context.parameters.featureFlags;
   const featureFlags = context.globals.featureFlags;
 
@@ -28,11 +28,20 @@ export function getFlags(context: StoryContext): FeatureFlags {
   );
 }
 
+export function selectFlags<Flags extends Record<string, any> = FlagsParameter>(
+  allFlags: Flags,
+  selectedFlags: (keyof Flags)[],
+) {
+  return Object.fromEntries(
+    Object.entries(allFlags).filter(([key]) => selectedFlags.includes(key)),
+  );
+}
+
 export function withFlags<TRenderer extends Renderer = Renderer, TArgs = Args>(
   decorator: FlagsDecoratorFunction<TRenderer, TArgs>,
 ): DecoratorFunction<TRenderer, TArgs> {
   return (story, context) => {
-    const allFlags = getFlags(context);
+    const allFlags = getFlagValues(context);
 
     return decorator(story, allFlags, context);
   };
