@@ -1,4 +1,4 @@
-import { createContext, useContext } from "react";
+import React, { createContext, useContext } from "react";
 
 /**
  * This is an example flags provider that could be used to pass feature flags to your application.
