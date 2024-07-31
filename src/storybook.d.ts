@@ -1,5 +1,5 @@
 import type { PARAM_KEY } from "./constants";
-import type { FlagsParameter, FlagsValues } from "./preview";
+import type { FlagsParameter, FlagsGlobal, FeatureFlags } from "./types";
 
 declare module "@storybook/types" {
   interface Parameters {
@@ -7,6 +7,6 @@ declare module "@storybook/types" {
   }
 
   interface Globals {
-    [PARAM_KEY]: FlagsValues;
+    [PARAM_KEY]: FeatureFlags;
   }
 }

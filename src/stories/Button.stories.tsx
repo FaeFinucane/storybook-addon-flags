@@ -1,8 +1,14 @@
 import React from "react";
 import type { Meta, StoryObj } from "@storybook/react";
-import { useGlobals } from "@storybook/manager-api";
 import { Button } from "./Button";
 import FlagsProvider from "./FlagsProvider";
+
+// Note: Could specify type for this flag with
+// declare module "../types" {
+//   interface FeatureFlags {
+//     ButtonStyle: "primary" | "secondary";
+//   }
+// }
 
 // More on how to set up stories at: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 const meta: Meta<typeof Button> = {
@@ -22,6 +28,7 @@ const meta: Meta<typeof Button> = {
     (Story, context) => {
       // Get the active feature flags from storybook's globals
       const featureFlags = context.globals.featureFlags;
+      featureFlags.ButtonStyle;
       return (
         <FlagsProvider flags={featureFlags}>
           <Story />

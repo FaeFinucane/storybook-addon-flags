@@ -9,13 +9,11 @@ import {
   ListItem,
   WithTooltipPure,
   TooltipLinkList,
-  Spaced,
-  Span,
 } from "@storybook/components";
 import { LightningIcon, CheckIcon, ChevronRightIcon } from "@storybook/icons";
 import { PARAM_KEY, TOOL_ID } from "./constants";
 import { styled } from "@storybook/theming";
-import type { BoolFlag, EnumFlag, FlagsParameter } from "./preview";
+import type { BoolFlag, EnumFlag, FlagsParameter } from "./types";
 
 export const Tool = memo(function FlagSelector() {
   const flagOptions = useParameter<FlagsParameter>(PARAM_KEY, {});

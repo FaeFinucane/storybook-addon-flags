@@ -10,24 +10,14 @@
  */
 import type { Renderer, ProjectAnnotations } from "@storybook/types";
 import { PARAM_KEY } from "./constants";
-
-export type BoolFlag = { type: "boolean"; defaultValue?: boolean };
-export type EnumFlag = {
-  type: "enum";
-  options: string[];
-  defaultValue?: string;
-};
-export type Flag = BoolFlag | EnumFlag;
-export type FlagsParameter = Record<string, Flag>;
-
-export type FlagsValues = Record<string, string | undefined>;
+import type { FlagsParameter, FeatureFlags } from "./types";
 
 const preview: ProjectAnnotations<Renderer> = {
   parameters: {
     [PARAM_KEY]: undefined as FlagsParameter | undefined,
   },
   globals: {
-    [PARAM_KEY]: {} as FlagsValues,
+    [PARAM_KEY]: {} as FeatureFlags,
   },
 };
 
