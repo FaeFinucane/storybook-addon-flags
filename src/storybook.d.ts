@@ -3,7 +3,7 @@ import type {
   FLAG_TYPES_PARAM_KEY,
   FLAG_VALUES_GLOBAL_KEY,
 } from "./constants";
-import type { FlagTypesParameter, FlagsGlobal, FeatureFlags } from "./types";
+import type { FlagTypesParameter, FeatureFlags } from "./types";
 
 declare module "@storybook/types" {
   interface Parameters {
