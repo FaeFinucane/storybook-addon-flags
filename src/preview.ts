@@ -16,7 +16,7 @@ const preview: ProjectAnnotations<Renderer> = {
   parameters: {
     [FLAG_TYPES_PARAM_KEY]: undefined as FlagTypesParameter | undefined,
   },
-  globals: {
+  initialGlobals: {
     [FLAG_VALUES_GLOBAL_KEY]: {} as FeatureFlags,
   },
 };
