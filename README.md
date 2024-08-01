@@ -74,7 +74,7 @@ const preview: Preview = {
 export default preview;
 ```
 
-It is up to you to ensure that the flags are passed to your components using whatever feature flag library you prefer. Flags may then be modified at run-time via the toolbar.
+It is up to you to ensure that the flags are passed to your components using whatever feature flag library you prefer. Flags may then be modified at run-time via the <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"><path d="M0 0h24v24H0z" fill="none"/><path d="M14.4 6L14 4H5v17h2v-7h5.6l.4 2h7V6z"/></svg> toolbar.
 
 ### Setting flags in stories
 

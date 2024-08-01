@@ -6,7 +6,7 @@ import {
   WithTooltipPure,
   TooltipLinkList,
 } from "@storybook/components";
-import { LightningIcon, CheckIcon, ChevronRightIcon } from "@storybook/icons";
+import { CheckIcon, ChevronRightIcon } from "@storybook/icons";
 import {
   FLAG_DEFAULTS_PARAM_KEY,
   FLAG_TYPES_PARAM_KEY,
@@ -20,6 +20,7 @@ import {
   type EnumFlagDefinition,
   type FlagTypesParameter,
 } from "./types";
+import { FlagIcon } from "./FlagIcon";
 
 export const Tool = memo(function FlagSelector() {
   const definitions = useParameter<FlagTypesParameter>(
@@ -104,7 +105,7 @@ export const Tool = memo(function FlagSelector() {
       onVisibleChange={setOpen}
     >
       <IconButton key={TOOL_ID} active={isOpen} title="Feature Flags">
-        <LightningIcon />
+        <FlagIcon />
       </IconButton>
     </WithTooltipPure>
   );
