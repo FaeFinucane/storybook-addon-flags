@@ -1,3 +1,18 @@
+# v0.0.5 (Thu Aug 01 2024)
+
+#### ⚠️ Pushed to `main`
+
+- Resolve globals deprecation warning ([@TimFinucane](https://github.com/TimFinucane))
+- Update storybook packages to 8.2.5 ([@TimFinucane](https://github.com/TimFinucane))
+- Add type checks to csf parameters types ([@TimFinucane](https://github.com/TimFinucane))
+- Fix equality comparison with potential boolean ([@TimFinucane](https://github.com/TimFinucane))
+
+#### Authors: 1
+
+- Finn ([@TimFinucane](https://github.com/TimFinucane))
+
+---
+
 # v0.0.4 (Thu Aug 01 2024)
 
 #### ⚠️ Pushed to `main`
