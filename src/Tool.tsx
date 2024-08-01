@@ -83,7 +83,8 @@ export const Tool = memo(function FlagSelector() {
                   updateGlobals({
                     [FLAG_VALUES_GLOBAL_KEY]: {
                       ...overrides,
-                      [flag]: value !== originalValue ? value : undefined,
+                      [flag]:
+                        value !== originalValue.toString() ? value : undefined,
                     },
                   });
                   onHide();
