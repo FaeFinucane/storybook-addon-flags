@@ -1,3 +1,15 @@
+# v0.0.4 (Thu Aug 01 2024)
+
+#### ⚠️ Pushed to `main`
+
+- Allow enum options to be readonly ([@TimFinucane](https://github.com/TimFinucane))
+
+#### Authors: 1
+
+- Finn ([@TimFinucane](https://github.com/TimFinucane))
+
+---
+
 # v0.0.3 (Thu Aug 01 2024)
 
 #### ⚠️ Pushed to `main`
