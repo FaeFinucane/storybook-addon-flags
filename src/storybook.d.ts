@@ -15,3 +15,10 @@ declare module "@storybook/types" {
     [FLAG_VALUES_GLOBAL_KEY]: Partial<FeatureFlags>;
   }
 }
+
+declare module "@storybook/csf" {
+  interface Parameters {
+    [FLAG_TYPES_PARAM_KEY]?: FlagTypesParameter;
+    [FLAG_DEFAULTS_PARAM_KEY]?: Partial<FeatureFlags>;
+  }
+}
