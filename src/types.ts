@@ -1,7 +1,7 @@
 export type BoolFlagDefinition = { type: "boolean"; initialValue?: boolean };
 export type EnumFlagDefinition<T extends string = string> = {
   type: "enum";
-  options: T[];
+  options: readonly T[];
   initialValue?: string;
 };
 export type FlagDefinition = BoolFlagDefinition | EnumFlagDefinition;
