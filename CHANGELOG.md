@@ -1,3 +1,16 @@
+# v0.0.6 (Thu Jul 10 2025)
+
+#### ⚠️ Pushed to `main`
+
+- Bump version to 0.0.6 ([@FaeFinucane](https://github.com/FaeFinucane))
+- Upgrade to Storybook v9 ([@FaeFinucane](https://github.com/FaeFinucane))
+
+#### Authors: 1
+
+- Fae ([@FaeFinucane](https://github.com/FaeFinucane))
+
+---
+
 # v0.0.5 (Thu Aug 01 2024)
 
 #### ⚠️ Pushed to `main`
