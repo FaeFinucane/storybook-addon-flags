@@ -5,7 +5,7 @@ import type {
 } from "./constants";
 import type { FlagTypesParameter, FeatureFlags } from "./types";
 
-declare module "@storybook/types" {
+declare module "storybook/internal/types" {
   interface Parameters {
     [FLAG_TYPES_PARAM_KEY]?: FlagTypesParameter;
     [FLAG_DEFAULTS_PARAM_KEY]?: Partial<FeatureFlags>;

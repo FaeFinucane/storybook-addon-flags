@@ -4,8 +4,8 @@ import type {
   PartialStoryFn,
   Renderer,
   StoryContext,
-} from "@storybook/types";
-import type { FeatureFlags, FlagTypesParameter } from "./types";
+} from "storybook/internal/types";
+import type { FeatureFlags } from "./types";
 import {
   FLAG_DEFAULTS_PARAM_KEY,
   FLAG_TYPES_PARAM_KEY,

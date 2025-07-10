@@ -1,5 +1,5 @@
 import React from "react";
-import type { Meta, StoryObj } from "@storybook/react";
+import type { Meta, StoryObj } from "@storybook/react-vite";
 import { withFlags } from "../index";
 import { Button } from "./Button";
 import FlagsProvider from "./FlagsProvider";
@@ -36,19 +36,9 @@ const meta: Meta<typeof Button> = {
 export default meta;
 type Story = StoryObj<typeof Button>;
 
-export const Default: Story = {
-  args: {
-    label: "Primary",
-  },
-};
+export const Default: Story = { args: { label: "Primary" } };
 
 export const Secondary: Story = {
-  args: {
-    label: "Secondary",
-  },
-  parameters: {
-    flags: {
-      ButtonStyle: "secondary",
-    },
-  },
+  args: { label: "Secondary" },
+  parameters: { flags: { ButtonStyle: "secondary" } },
 };

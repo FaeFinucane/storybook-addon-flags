@@ -8,7 +8,7 @@
  *
  * https://storybook.js.org/docs/react/writing-stories/decorators
  */
-import type { Renderer, ProjectAnnotations } from "@storybook/types";
+import type { Renderer, ProjectAnnotations } from "storybook/internal/types";
 import { FLAG_TYPES_PARAM_KEY, FLAG_VALUES_GLOBAL_KEY } from "./constants";
 import type { FlagTypesParameter, FeatureFlags } from "./types";
 
@@ -16,9 +16,7 @@ const preview: ProjectAnnotations<Renderer> = {
   parameters: {
     [FLAG_TYPES_PARAM_KEY]: undefined as FlagTypesParameter | undefined,
   },
-  initialGlobals: {
-    [FLAG_VALUES_GLOBAL_KEY]: {} as FeatureFlags,
-  },
+  initialGlobals: { [FLAG_VALUES_GLOBAL_KEY]: {} as FeatureFlags },
 };
 
 export default preview;

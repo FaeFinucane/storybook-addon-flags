@@ -1,11 +1,11 @@
 import React, { memo, useCallback, useState } from "react";
-import { useGlobals, useParameter } from "@storybook/manager-api";
+import { useGlobals, useParameter } from "storybook/manager-api";
 import {
   IconButton,
   ListItem,
   WithTooltipPure,
   TooltipLinkList,
-} from "@storybook/components";
+} from "storybook/internal/components";
 import { CheckIcon, ChevronRightIcon } from "@storybook/icons";
 import {
   FLAG_DEFAULTS_PARAM_KEY,
@@ -13,7 +13,7 @@ import {
   FLAG_VALUES_GLOBAL_KEY,
   TOOL_ID,
 } from "./constants";
-import { styled } from "@storybook/theming";
+import { styled } from "storybook/theming";
 import {
   FeatureFlags,
   type BoolFlagDefinition,
@@ -78,13 +78,13 @@ export const Tool = memo(function FlagSelector() {
                 name={flag}
                 // @ts-ignore
                 definition={definition}
-                value={value}
+                value={value as any}
                 onUpdate={(value) => {
                   updateGlobals({
                     [FLAG_VALUES_GLOBAL_KEY]: {
                       ...overrides,
                       [flag]:
-                        value !== originalValue.toString() ? value : undefined,
+                        value !== originalValue?.toString() ? value : undefined,
                     },
                   });
                   onHide();
@@ -185,11 +185,7 @@ const List = styled.div(
     overflowY: "auto",
     maxHeight: 15.5 * 32, // 11.5 items
   },
-  ({ theme }) => ({
-    borderRadius: theme.appBorderRadius,
-  }),
+  ({ theme }) => ({ borderRadius: theme.appBorderRadius }),
 );
 
-const ValueLabel = styled.span({
-  paddingRight: 4,
-});
+const ValueLabel = styled.span({ paddingRight: 4 });
